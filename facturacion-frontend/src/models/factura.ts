@@ -1,4 +1,4 @@
-import { Detalle } from "./detalle";
+import { Detalle, DetallePost } from "./detalle";
 
 export interface Factura {
     idfactura:   number;
@@ -6,4 +6,8 @@ export interface Factura {
     nit:         string;
     address:     string;
     detalleList: Detalle[];
+}
+
+export interface FacturaPost extends Omit<Factura, 'idfactura' | 'detalleList'> {
+    detalleList: DetallePost[];
 }

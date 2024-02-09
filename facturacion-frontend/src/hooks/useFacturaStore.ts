@@ -1,8 +1,9 @@
 import { useEffect } from "react";
-import { Factura } from "../models";
-import { setActiveFactura, setFacturas } from "../store/slices";
+import { Factura, FacturaPost } from "../models";
 import { useAppDispatch, useAppSelector } from "./useStore"
-import { getFacturas } from "../services";
+import { getFacturas, postFactura } from "../services";
+import { deleteFactura } from '../services/facturaService';
+import { addFactura, popFactura, setActiveFactura, setFacturas } from "../store";
 
 
 export const useFacturaStore = () => {
@@ -15,7 +16,29 @@ export const useFacturaStore = () => {
     }
 
     const updateActiveFactura = (factura: Factura | null) => {
+        
         dispatch(setActiveFactura(factura))
+    }
+
+    const saveFactura = async (factura: FacturaPost) => {
+        const newFactura = await postFactura(factura);
+
+        if (newFactura) {
+            dispatch(addFactura(newFactura));
+            return true;
+        }
+
+        return false;
+    }
+
+    const removeFactura = async (id: number) => {
+        const deleted = await deleteFactura(id);
+
+        if (deleted) {
+            dispatch(popFactura(id))
+        }
+
+        return deleted;
     }
 
     useEffect(() => {
@@ -38,7 +61,8 @@ export const useFacturaStore = () => {
 
         // Methods
         uploadFacturas,
-        updateActiveFactura
-        
+        updateActiveFactura,
+        saveFactura,
+        removeFactura
     }
 }

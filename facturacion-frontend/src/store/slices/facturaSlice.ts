@@ -21,8 +21,16 @@ export const facturaSlice = createSlice({
 
         setActiveFactura: (state, { payload } : PayloadAction<Factura | null>) => {
             state.activeFactura = payload;
+        },
+
+        addFactura: (state, { payload } : PayloadAction<Factura>) => {
+            state.facturas.push(payload);
+        },
+
+        popFactura: (state, { payload } : PayloadAction<number>) => {
+            state.facturas = state.facturas.filter(factura => factura.idfactura !== payload);
         }
     }
 });
 
-export const { setFacturas, setActiveFactura } = facturaSlice.actions;
+export const { setFacturas, setActiveFactura, addFactura, popFactura } = facturaSlice.actions;

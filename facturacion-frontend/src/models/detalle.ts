@@ -6,3 +6,5 @@ export interface Detalle {
     unitprice:   number;
     idfactura:   number;
 }
+
+export type DetallePost = Omit<Detalle, 'iddetalle' | 'idfactura'>;
